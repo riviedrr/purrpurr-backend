@@ -20,6 +20,7 @@ const Item = sequelize.define('item', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false},
+    rating: {type: DataTypes.INTEGER, defaultValue},
     img: {type: DataTypes.STRING, allowNull: false},
 })
 
@@ -31,6 +32,11 @@ const Type = sequelize.define('type', {
 const Brand = sequelize.define('brand', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
+})
+
+const Rating = sequelize.define('rating', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    rate: {type: DataTypes.STRING, unique: true, allowNull: false},
 })
 
 const ItemInfo = sequelize.define('item_info', {
@@ -46,6 +52,9 @@ const TypeBrand = sequelize.define('type_brand', {
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
+User.hasMany(Rating)
+Rating.belongsTo(User)
+
 Basket.hasMany(BasketItem)
 BasketItem.belongsTo(Basket)
 
@@ -54,6 +63,9 @@ Item.belongsTo(Type)
 
 Brand.hasMany(Item)
 Item.belongsTo(Brand)
+
+Item.hasMany(Rating)
+Rating.belongsTo(Item)
 
 Item.hasMany(BasketItem)
 BasketItem.belongsTo(Item)
@@ -71,6 +83,7 @@ module.exports = {
     Item,
     Type,
     Brand,
+    Rating,
     TypeBrand,
     ItemInfo
 }
